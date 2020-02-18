@@ -5,6 +5,15 @@
   "repository": "git@github.com:1sdc0d3r/node-auth1-project.git",
   "author": "Braden <fish2355@hotmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "knex seed:run --env testing && jest --watchAll --verbose"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "morgan": "^1.9.1",
+    "cross-env": "^7.0.0",
+    "supertest": "^4.0.2"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
@@ -12,8 +21,13 @@
     "express-session": "^1.17.0",
     "helmet": "^3.21.2",
     "knex": "^0.20.10",
-    "morgan": "^1.9.1",
     "nodemon": "^2.0.2",
     "sqlite3": "^4.1.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

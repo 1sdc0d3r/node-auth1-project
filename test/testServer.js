@@ -1,33 +1,26 @@
 const express = require("express");
-const morgan = require("morgan");
-const helmet = require("helmet");
-const bcrypt = require("bcryptjs");
-const session = require("express-session");
+// const bcrypt = require("bcryptjs");
+// const session = require("express-session");
 
 const db = require("../data/auth1-model");
-const authUser = require("./auth/login-auth");
-const newUserAuth = require("./auth/register-auth");
-const restricted = require("./auth/restricted-auth");
+const authUser = require("../server/auth/login-auth");
+const newUserAuth = require("../server/auth/register-auth");
 
 const server = express();
-const sessionConfig = {
-  name: "monkey", // default "sid"
-  secret: process.env.SECRET,
-  cookie: {
-    maxAge: 1000 * 30,
-    secure: false, //true in production
-    httpOnly: true //javascript can't access cookie
-  },
-  reSave: false, //same session, don't reSave
-  saveUninitialized: false //GDPR laws against setting cookies automatically
-};
+// const sessionConfig = {
+//   name: "monkey", // default "sid"
+//   secret: process.env.SECRET,
+//   cookie: {
+//     maxAge: 1000 * 30,
+//     secure: false, //true in production
+//     httpOnly: true //javascript can't access cookie
+//   },
+//   reSave: false, //same session, don't reSave
+//   saveUninitialized: false //GDPR laws against setting cookies automatically
+// };
+// server.use(session(sessionConfig));
 
-server.use(express.json());
-server.use(morgan("combined"));
-server.use(helmet());
-server.use(session(sessionConfig));
-
-server.get("/api/users", restricted, (req, res) => {
+server.get("/api/users", (req, res) => {
   db.getUsers()
     .then(users => res.status(200).json(users))
     .catch(err =>
@@ -35,8 +28,8 @@ server.get("/api/users", restricted, (req, res) => {
     );
 });
 
-server.get("/api/users/:id", restricted, (req, res) => {
-  const { id } = req.params;
+server.get("/api/users/:id", (req, res) => {
+  const id = 1;
   db.getUserById(id)
     .then(user =>
       !user
@@ -84,7 +77,7 @@ server.get("/api/logout", (req, res) => {
   }
 });
 
-server.use("/", (req, res) => {
+server.get("/", (req, res) => {
   res.status(200).json({ api: "up" });
 });
 
