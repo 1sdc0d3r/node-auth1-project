@@ -4,6 +4,6 @@ exports.seed = function(knex) {
     .truncate()
     .then(function() {
       // Inserts seed entries
-      return knex("Users").insert([{ user: "user1", password: "password" }]);
+      return knex("Users").insert([{ user: "admin", password: "password" }]);
     });
 };
